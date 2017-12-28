@@ -1,6 +1,7 @@
-package com.openfaas;
+package com.openfaas.http;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class HeaderReader {
     private java.io.DataInputStream inputStream;
@@ -11,26 +12,25 @@ public class HeaderReader {
 
     public StringBuffer readHeader() throws IOException {
         StringBuffer header = new StringBuffer();
-        
+
         String line;
-        while(true)  {
+        while (true) {
             line = readLine();
             if (line.equals("\n")) {
                 break;
             }
-            
+
             header.append(line);
         }
         return header;
     }
 
-    private  String readLine() throws IOException {
+    private String readLine() throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        // int terminateHeader = (int)'\n';
 
         char character;
-        while ((character = (char)this.inputStream.read()) > -1) {          
-            
+        while ((character = (char) this.inputStream.read()) > -1) {
+
             if (character == '\r') {
                 continue;
             }

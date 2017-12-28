@@ -1,6 +1,12 @@
-package com.openfaas;
+package com.openfaas.function;
 
-import java.io.*;
+import com.openfaas.http.HeaderReader;
+import com.openfaas.http.HttpHeader;
+import com.openfaas.http.HttpResponse;
+
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.IOException;
 
 public class Parser {
     public void acceptIncoming(DataInputStream dataStream, BufferedWriter out, HeaderReader parser) throws IOException {
@@ -10,15 +16,15 @@ public class Parser {
 
         HttpHeader header = new HttpHeader(rawHeader.toString());
 
-        if(header.getMethod() != null) {
+        if (header.getMethod() != null) {
             System.err.println(header.getMethod() + " method");
-            System.err.println(header.getContentLength()  + " bytes");
-            
+            System.err.println(header.getContentLength() + " bytes");
+
             byte[] body = header.readBody(dataStream);
 
-            function.Handler handler = new function.Handler();
+            Handler handler = new Handler();
             String functionResponse = handler.function(new String(body), header.getMethod());
-            
+
             HttpResponse response = new HttpResponse();
             response.setStatus(200);
             response.setContentType("text/plain");

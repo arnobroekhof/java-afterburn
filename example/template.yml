@@ -1,0 +1,10 @@
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+
+functions:
+  java-afterburn:
+    lang: Dockerfile
+    handler: ./burner
+    image: functions/java-afterburn:0.1

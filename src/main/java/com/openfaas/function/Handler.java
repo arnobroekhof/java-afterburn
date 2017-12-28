@@ -1,4 +1,4 @@
-package function;
+package com.openfaas.function;
 
 public class Handler {
     public String function(String input, String method) {
